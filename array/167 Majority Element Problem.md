@@ -1,6 +1,17 @@
 # 167 Majority Element Problem
 
+Tag:
 
+-  Easy
+- Array
+- HashMap
+- Majority Vote
+- Bit manipulation
+
+Todo List:
+
+- [ ] 排序算法的复杂度 <- DSA课程
+- [x] Bit manipulation 解法
 
 ## Problem Description
 
@@ -18,7 +29,7 @@ majority的定义是，这个元素的occurrence超过nums数组size的一半
 
 * 如果数组是有序的话，那么中间那个元素肯定是majority element，因为majority比一半还多
   * 时间/空间复杂度取决于排序算法
-  * 先sort，然后取中间值
+  * 先sort，然后取中间值 （可能是`O(nlog n)`）
 * 用Boyer-Moore majority vote algorithm
   * linear time and constant space
   * 只存一个majority数，然后从头开始遍历，一般取第一个元素作初始的majority
@@ -36,7 +47,7 @@ loop the array nums with index{
 #写完跟Ruby几乎一毛一样，自爆吧你
 ```
 
-
+* 位操作法的思路是，用32bit的integer，从末位开始查所有数的1和0的数量，1多代表众数这位是1,0多就是众数这位是0，然后一位一位的组合起来...
 
 ## Ruby Solutions
 
@@ -68,7 +79,7 @@ end
 
 ```ruby
 # @param {Integer[]} nums
-# @return {Integer}
+# @return {Integer
 def majority_element(nums)
     target = nums[0]
     counter = 0
@@ -81,6 +92,33 @@ def majority_element(nums)
         end
     end
     target
+end
+```
+
+
+
+### Bit Manipulation
+
+Ruby可以告别带负数的Bit Manipulation题目了。。妈蛋
+
+```ruby
+# @param {Integer[]} nums
+# @return {Integer}
+def majority_element(nums)
+    majority = 0
+    # iter 32 rounds of counting bits
+    32.times do |iter_round| 
+        filter_bit = 1 << iter_round
+        count_one = 0
+        count_zero = 0
+        # counting bits
+        nums.each do |num|
+            num & filter_bit != 0 ? count_one+=1 : count_zero+=1  # &notice: here, we need to use not equal to zero
+        end
+        # if this bit is one, then append it by or operator
+        majority |= filter_bit if count_one > count_zero
+    end
+    majority
 end
 ```
 
@@ -131,11 +169,54 @@ public class Solution {
 代码如下
 
 ```java
-dfff
-  d
+public class Solution {
+    public int majorityElement(int[] nums) {
+        int target = nums[0];
+        int counter = 0;
+        for( Integer num:nums){
+            if(0 == counter){
+                target = num;
+                counter = 1;
+            }else if(target == num){
+                counter+=1;
+            }else{
+                counter-=1;
+            }
+        }
+        return target;
+    }
+}
 ```
 
 
+
+## Bit Manipulation
+
+Code:
+
+```java
+public class Solution {
+public int majorityElement(int[] nums) {
+    int result = 0;
+    long half_len = (long) Math.floor(nums.length/2.0);
+    for (int i = 0; i < 32; i++) {
+        int counter_one = 0;
+        int filter_mask = 1<<i;
+        for (int j = 0; j < nums.length; j++) {
+            if ((nums[j] & filter_mask) != 0) {
+                counter_one += 1;
+            }
+        }
+
+        if (counter_one > half_len){
+            result |= filter_mask;
+        }
+    }
+    
+    return result;
+}
+}
+```
 
 
 
