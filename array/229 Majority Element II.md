@@ -6,7 +6,6 @@ Tag:
 -  Array
 -  HashMap
 -  Majority Vote
--  Bit manipulation
 
 Todo List:
 
