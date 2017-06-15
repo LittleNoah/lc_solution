@@ -9,6 +9,7 @@ Tag:
 Todo List:
 
 - [ ] 看懂答案
+- [ ] 写完Stack解法
 
 Notice:
 
@@ -18,23 +19,25 @@ Notice:
 
 输入一个整数N,从1到N输出一个数组
 
-> Write a program that outputs the string representation of numbers from 1 to *n*.
+> Given an integer array, you need to find one **continuous subarray** that if you only sort this subarray in ascending order, then the whole array will be sorted in ascending order, too. 
 >
-> But for multiples of three it should output “Fizz” instead of the number and for the multiples of five output “Buzz”. For numbers which are multiples of both three and five output “FizzBuzz”.
+> You need to find the **shortest** such subarray and output its length.
 
-具体很蠢了...
+[Link to Shortest Unsorted Continous Subarray](https://leetcode.com/problems/shortest-unsorted-continuous-subarray/#/description)
+
+具体说比如说我有一个数组 [1,2,3,7,6,8] 我要在里面找到一个subarray，排序之后使得整个数组也有序
 
 ## Ideas
 
-贪心，每个都看能不能插入，能就插入
+通过DSA绪论里计算模型讲的2-subset问题，我们可以明显的知道，遍历全部组合（子集）是一个2^n复杂度的算法，相如果没有其他信息就当于求解NP-complete，但是这道题有其他解法啦
+
+放弃暴力求解
 
 ## Ruby Solutions
 
-**坑**：注意一下ruby的upto方法
 
 
-
-### Greedy Solution
+### Sort Solution
 
 `O(N) O(N)`了
 
@@ -64,35 +67,29 @@ end
 
 ## Java Solutions
 
-**注意** 没啥注意的..
+**注意** 
 
-### Greedy Solution
+1. 最后返回判断的时候注意下
+2. start应该初始化为数组长度，end初始化为0，这样才能起到判断的作用，也就是说Math.min能修改该修改的
+
+### Sort Solution
 
 代码如下
 
 ```java
 public class Solution {
-    public boolean canPlaceFlowers(int[] flowerbed, int n) {
-    	if(n==0){return true;}
-        int len = flowerbed.length;
-        int result = 0;
-        for(int i=0; i < len; i++){
-            if(flowerbed[i] == 1) {
-                continue;
-            }else if(i>0 && flowerbed[i-1]==1  ) {
-                continue;
-            }else if(i<len-1 && flowerbed[i+1]==1){
-                continue;
-            }else{
-                flowerbed[i] = 1;
-                result+=1;
+    public int findUnsortedSubarray(int[] nums) {
+        int []clone_nums = nums.clone();
+        Arrays.sort(clone_nums);
+        int start=nums.length;
+        int end = 0;
+        for(int i=0; i<nums.length; i++){
+            if(nums[i] != clone_nums[i]){
+                start = Math.min(start, i);
+                end = Math.max(end, i);
             }
         }
-        if(result >= n){
-            return true;
-        }else{
-            return false;
-        }
+        return (end-start>=0 )? end-start+1 : 0;
     }
 }
 ```
