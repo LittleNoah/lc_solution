@@ -30,6 +30,30 @@ Todo List:
 
 每次计算最后一个bit，代码如下:
 
+```ruby
+# @param {Integer} num
+# @return {Integer[]}
+def count_bits(num)
+    result = []
+    0.upto num do |n|
+        result << count_one_bit(n)
+    end
+    return result
+end
+# recusively calculate
+def count_one_bit(num)
+    if num.zero?
+        return 0
+    elsif 1 == num
+        return 1    
+    else
+        return (count_one_bit(num & 0x01) + count_one_bit(num>>1) )
+    end
+end
+```
+
+
+
 ### 递归 + Memoization
 
 不知道为什么，执行效率和递归基本相同，卧槽，忘记存入dp了,存入dp数组之后beat了79%
