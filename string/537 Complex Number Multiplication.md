@@ -50,3 +50,31 @@ public class Solution {
 }
 ```
 
+也可以把indexOf抽出来..不过性能上没啥区别
+
+```java
+public class Solution {
+    public String complexNumberMultiply(String a, String b) {
+        // corner case
+        if("0".equals(a) || "0".equals(b)){
+            return "0+0i";
+        }
+        int realNum1, imgNum1, realNum2,imgNum2;
+        // match each part
+        int plusIdx1 = a.indexOf("+");
+        int plusIdx2 = b.indexOf("+");
+        // find the index of the first "+" and "i"
+        realNum1 = Integer.parseInt(a.substring(0, plusIdx1));   // substring : startIndex, startIndex+strlength
+        realNum2 = Integer.parseInt(b.substring(0, plusIdx2));
+        imgNum1 = Integer.parseInt( a.substring( plusIdx1+1, a.length()-1) );    // before i, after +
+        imgNum2 = Integer.parseInt( b.substring( plusIdx2+1, b.length()-1) );    // before i, after +
+        
+        int realNum = realNum1*realNum2 - imgNum1*imgNum2;
+        int imgNum = realNum1 * imgNum2 + realNum2 * imgNum1;
+        
+        String res = "" + realNum + "+" + imgNum + "i";
+        return res;
+    }
+    
+}
+```
