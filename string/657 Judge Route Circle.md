@@ -13,7 +13,9 @@ Tag:
 
 就是判断下offset是否归零
 
+需要注意的是:
 
+Java中取字符串长度需要用length() `str.length()` .
 
 ## Java Solution
 
