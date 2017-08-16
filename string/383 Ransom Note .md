@@ -9,11 +9,12 @@ Tag:
 Todos:
 
 - ....
+- 总结下用char当数组
 - 看官方答案
 
 一句话简介
 
-> 我觉得出题人有病系列，说了空节点返回（），测试用例却要求空字符串
+> HashMap的应用
 
 需要注意的是:
 
@@ -21,11 +22,27 @@ Todos:
 
 ## Java Solution
 
-### 递归 先序遍历
+### 其实就是Hash
+
+开了个小数组，用char当index
 
 方法特点：写的太长了有木有啊！！！Java写字符串想自爆啊有木有啊！！！！
 
 ```java
-fff
+public class Solution {
+    public boolean canConstruct(String ransomNote, String magazine) {
+        int[] words = new int[128]; // store characters
+        for(char ch : magazine.toCharArray()){
+            words[ch] += 1; // make magazine words avaliable
+        }
+        for(char ch : ransomNote.toCharArray()){
+            words[ch] -= 1;
+            if(words[ch] < 0){
+                return false;
+            }
+        }
+        return true;
+    }
+}
 ```
 
