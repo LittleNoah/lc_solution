@@ -10,6 +10,7 @@ Tag:
 Todos:
 
 - ....重做一遍
+- 用expand大法 [ref1](https://discuss.leetcode.com/topic/35582/java-easy-understanding-solution-beats-97/4) [ref2](https://discuss.leetcode.com/topic/23498/very-simple-clean-java-solution)
 
 一句话简介
 
