@@ -8,8 +8,8 @@ Tag:
 
 Todos:
 
-- ..
-- ....
+- ..重新想一下workflow吧
+- ....没写完
 
 一句话简介
 
@@ -17,7 +17,11 @@ Todos:
 
 需要注意的是:
 
-- ...
+- ...`Integer.valueOf(char)`有坑，应该用`Character.getNumericValue`
+- ....如果abbr给出的skip长度超过原字符串长度，也要返回`false`
+- 如果abbr里面出现11，可能是1和1...???????黑人问号
+
+
 
 ## Java Solution
 
@@ -27,33 +31,56 @@ Todos:
 
 ```java
 class Solution {
-    public String reverseStr(String s, int k) {
-        int len = s.length();
-        char[] chseq = s.toCharArray();
-        // for each 2k
-        int span2k = 2*k;
-        for(int i=0; i+span2k <= len ; i+=span2k){
-            reverseSeq(chseq, i, i+k-1);        // notice that the question requires us to reverse the first k chars not 2k
+    public boolean validWordAbbreviation(String word, String abbr) {
+        // empty abbr string case
+        if(0==abbr.length()){   // since word is non-empty
+            return false;
         }
-        int remainLen = len%(2*k);
-        int lastIdx = len-remainLen;
-        if(remainLen!=0 && remainLen < k){
-            reverseSeq(chseq, lastIdx, len-1);
-        }else if(remainLen!=0 && remainLen >= k){   // reverse the first k
-            reverseSeq(chseq, lastIdx, lastIdx+k-1 );
+        // two pointers
+        int idx1 = 0;
+        int idx2 = 0;
+        // loop for each char in these two strings
+        while(idx1<word.length() && idx2<abbr.length()){
+            char ch1 = word.charAt(idx1);
+            char ch2 = abbr.charAt(idx2);
+            
+            if(Character.isDigit(ch2)){ // start count the number
+                int abbrNum = Character.getNumericValue(ch2); //getNumericValue
+                for(int i = idx2+1; i<abbr.length(); i++){
+                    if(Character.isDigit(abbr.charAt(i))){
+                        abbrNum = abbrNum*10 + Character.getNumericValue(abbr.charAt(i));
+                    }else{
+                        idx2 = i;
+                        break;
+                    }
+                }
+                // skip range for index1
+                if(idx1+abbrNum > word.length()){
+                    return false;
+                }else{
+                    idx1 += abbrNum;    
+                }
+                
+            }else{  // just skip
+                if(ch1 != ch2){ 
+                    return false; 
+                }
+                idx1 += 1;
+                idx2 += 1;
+            }
         }
-        return new String(chseq);
+        int len1 = word.length()-1;
+        int len2 = abbr.length()-1;
+        if(idx1 != len1+1 || idx2 != len2 ){  // notice here, should be same as while condition
+            // System.out.println("word len: " + len1);
+            // System.out.println("abbr len: " + len2);
+            // System.out.println("idx1: " + idx1);
+            // System.out.println("idx2: " + idx2);
+            return false;
+        }else{
+            return true;
+        }
     }
-    
-    public void reverseSeq(char[]seq, int start, int end){
-        for(int i = (start+end)>>1; i>=start; i--){ // i>=start , if for the whole string, i>=0
-            char chj = seq[i];
-            char chk = seq[start+end-i];
-            seq[i] = chk;
-            seq[start+end-i] = chj;
-        }
-    }
-    
 }
 ```
 
