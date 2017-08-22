@@ -1,4 +1,4 @@
-# 255 Implement Queue using Stacks
+# 255 Implement Stacks using Queues
 
 Tag:
 
@@ -13,11 +13,13 @@ Todos:
 一句话简介
 
 > 用两个栈模拟,一个进一个出
+>
+> 马丹的看错题了啊！
 
 需要注意的是:
 
-- 两种做法，一种每个操作都判断
-- 另一种每个操作都存冗余
+- 这种题都要你在构造函数初始化一下...别弄错地方
+- top和
 
 
 
@@ -28,106 +30,44 @@ Todos:
 方法特点：...简单不易出错
 
 ```java
-class MinStack {
-    
-    private Stack<Integer> dataStack;
-    private Stack<Integer> minStack;
-    
-    /** initialize your data structure here. */
-    public MinStack() {
-        dataStack = new Stack<>();
-        minStack = new Stack<>();
+class MyStack {
+    private LinkedList<Integer> queue;
+    /** Initialize your data structure here. */
+    public MyStack() {
+        queue = new LinkedList<>();
     }
-    /** if the stack is empty,  */
+    
+    /** Push element x onto stack. */
     public void push(int x) {
-        if(dataStack.empty()){
-            minStack.push(x);
-        }else{
-            int curMin = Math.min(x,minStack.peek());
-            minStack.push(curMin);
-        }
-        dataStack.push(x);
+        queue.addFirst(x);
+    }
+    // two condistions must be satisfied
+    /** Removes the element on top of the stack and returns that element. */
+    public int pop() {
+        return queue.pollFirst();
     }
     
-    public void pop() {
-        dataStack.pop();
-        minStack.pop();
-    }
-    
+    /** Get the top element. */
     public int top() {
-        return dataStack.peek();
+        return queue.peekFirst();
     }
     
-    public int getMin() {
-        return minStack.peek();
+    
+    /** Returns whether the stack is empty. */
+    public boolean empty() {
+        if(0 == queue.size()){
+            return true;
+        }
+        return false;
     }
 }
 
 /**
- * Your MinStack object will be instantiated and called as such:
- * MinStack obj = new MinStack();
+ * Your MyStack object will be instantiated and called as such:
+ * MyStack obj = new MyStack();
  * obj.push(x);
- * obj.pop();
+ * int param_2 = obj.pop();
  * int param_3 = obj.top();
- * int param_4 = obj.getMin();
+ * boolean param_4 = obj.empty();
  */
 ```
-
-### 判断写法
-
-......
-
-```java
-
-```
-
-### LinkedList 自以为很快法
-
-实际上更慢了...估计自己实现一个linkedlist会快一点()
-
-```java
-class MinStack {
-    
-    private LinkedList<Integer> dataStack;
-    private LinkedList<Integer> minStack;
-    
-    /** initialize your data structure here. */
-    public MinStack() {
-        dataStack = new LinkedList<>();
-        minStack = new LinkedList<>();
-    }
-    /** if the stack is empty,  */
-    public void push(int x) {
-        if(0==dataStack.size()){
-            minStack.addFirst(x);
-        }else{
-            int curMin = Math.min(x,minStack.peekFirst());
-            minStack.addFirst(curMin);
-        }
-        dataStack.addFirst(x);
-    }
-    
-    public void pop() {
-        dataStack.removeFirst();
-        minStack.removeFirst();
-    }
-    
-    public int top() {
-        return dataStack.peekFirst();
-    }
-    
-    public int getMin() {
-        return minStack.peekFirst();
-    }
-}
-
-/**
- * Your MinStack object will be instantiated and called as such:
- * MinStack obj = new MinStack();
- * obj.push(x);
- * obj.pop();
- * int param_3 = obj.top();
- * int param_4 = obj.getMin();
- */
-```
-
