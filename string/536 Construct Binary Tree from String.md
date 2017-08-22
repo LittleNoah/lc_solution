@@ -10,6 +10,7 @@ Todos:
 
 - 看看discussion的解法
 - 实现迭代解法
+- 用substring写一个更clean的code
 
 一句话简介
 
@@ -123,7 +124,7 @@ class Solution {
 
 ```
 
-### ...
+### Clean Code for Recursive Solution
 
 ...
 
