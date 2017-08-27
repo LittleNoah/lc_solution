@@ -75,4 +75,36 @@ class Solution {
 
 ### In-place replacement
 
+重点在于我们要有对pre, cur, next的引用
+
+最后当cur变成null的时候,pre就是最后一个节点
+```java
+private ListNode reverseListOne(ListNode head){
+    ListNode pre = null;    // used to help to locate, start as an virtual node/null head
+    ListNode next = null;
+    while(head != null){
+        next = head.next;
+        head.next = pre;
+        pre = head; // move to next window
+        head = next;
+    }
+    return pre; // notice we need to return pre, because head has been assigned to null
+}
+```
+
 ### Recurisive
+
+递归主要要求我们理解：置自己的next节点的next为本身，然后返回本身
+
+```java
+/** recurisive */
+private ListNode reverseListTwo(ListNode head){
+    if(head == null || head.next == null){
+        return head;
+    }
+    ListNode p = reverseListTwo(head.next);
+    head.next.next = head;
+    head.next = null;
+    return p;
+}
+```
