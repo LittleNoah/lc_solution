@@ -3,7 +3,7 @@
 Tags:
 
 - Linked List
-- Bloomberg, Microsoft
+- Amazon, Airbnb, Microsoft
 
 坑:
 
