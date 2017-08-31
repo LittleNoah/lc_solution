@@ -120,7 +120,7 @@ public void inOrderIterative(TreeNode root, List<Integer> list){
 
 # Reference
 
-![Page1](./images/tree_traversal_1.png "Page1")
-![Page2](./images/tree_traversal_2.png "Page2")
-![Page3](./images/tree_traversal_3.png "Page3")
-![Page4](./images/tree_traversal_4.png "Page4")
+![Page1](images/tree_traversal_1.png "Page1")
+![Page2](images/tree_traversal_2.png "Page2")
+![Page3](images/tree_traversal_3.png "Page3")
+![Page4](images/tree_traversal_4.png "Page4")
