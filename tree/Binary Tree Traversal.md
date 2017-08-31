@@ -41,7 +41,29 @@ public void preOrderRecursive(TreeNode node){
 
 ### In-Order
 
+```java
+public void inOrderRecursive(TreeNode node, List<Integer> list){
+    if(node == null){
+        return;
+    }
+    inOrderRecursive(node.left, list);
+    list.add(node.val);
+    inOrderRecursive(node.right, list);
+}
+```
+
 ### Post-Order
+
+```java
+public void postOrderRecursive(TreeNode node, List<Integer> list){
+    if(node == null){
+        return;
+    }
+    postOrderRecursive(node.left, list);
+    postOrderRecursive(node.right, list);
+    list.add(node.val);
+}
+```
 
 ## Iteritive
 
@@ -114,6 +136,48 @@ public void inOrderIterative(TreeNode root, List<Integer> list){
 
 ### Post-Order
 
+Post-Order相对前两种来说比较复杂，我们要保证对每一个子树遍历完左右节点之后再处理根节点，一般来说有两种做法，采用双栈或单栈
+
+#### Two Stacks Post-Order Traversal
+
+双栈的思想在于：按照反向的顺序压入第二个栈
+
+```java
+private void postOrderIter(TreeNode root, List<Integer> list){
+    if(root == null){
+        return;
+    }
+    Deque<TreeNode> stack1 = new ArrayDeque<>(20);
+    Deque<TreeNode> stack2 = new ArrayDeque<>(20);
+    // en-stack root
+    TreeNode head = root;
+    stack1.push(root);
+    // put all elements in a post-order in second stack
+    while(!stack1.isEmpty()){
+        head = stack1.pop();
+        stack2.push(head);
+        if(head.left != null){
+            stack1.push(head.left);
+        }
+        if(head.right != null){
+            stack1.push(head.right);
+        }
+    }
+    // pop all nodes in stack 2, which follows the post order
+    while(!stack2.isEmpty()){
+        list.add(stack2.pop().val);
+    }
+}
+```
+
+#### Single Stack Post-Order Traversal
+
+
+## Other Methods
+
+### Morris Traversal for InOrder Traversal
+
+123123231
 
 # Level-order Traversal
 
