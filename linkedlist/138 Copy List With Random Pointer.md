@@ -112,4 +112,4 @@ public class Solution {
 
 ### 代码解析
 
-注意最后Split的方法，多联系
+注意最后Split的方法，多练习
