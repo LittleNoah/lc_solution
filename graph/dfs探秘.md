@@ -144,4 +144,138 @@ public int depthSumInverse(List<NestedInteger> nestedList) {
 }
 ```
 
-# next interesting problem
+#  565. Array Nesting
+
+## Description
+
+给出一个Array，要求找出这样的Set的最长长度，Set里面的元素都可以作为下标访问到另一个同set的元素
+
+## Ideas
+
+就是DFS啦
+
+```ruby
+int maxlen
+for unvisited node in Set(InputArray)
+  explore
+```
+
+因为这题太简单，所以就不写explore方法了，省的传参麻烦
+
+主要注意一下这个边界条件的判定，感觉可能因为数组越界出点篓子
+
+## Solutions
+
+### DFS
+
+39ms
+
+```java
+public int arrayNesting(int[] nums) {
+    if(nums.length == 0){
+        return 0;
+    }
+    int maxLen = 0;
+    boolean[] visited = new boolean[nums.length];
+    // dfs
+    for(int i = 0; i < nums.length; i++){
+        if(!visited[i]){
+            int tmpLen = 1;
+            visited[i] = true;
+            int start = nums[i];
+            while(start >=0 && start <nums.length && !visited[start]){ // valid case and not visited
+                visited[start] = true;
+                tmpLen += 1;
+                start = nums[start];
+            }
+            // update maxLen
+            maxLen = tmpLen > maxLen ? tmpLen : maxLen;
+        }
+    }
+    return maxLen;
+}
+```
+
+# 108 Convert Sorted Array to Binary Search Tree (CK)
+
+https://www.tianmaying.com/tutorial/LC108
+
+
+自愧不如，做的巨烂无比
+
+```java
+public TreeNode sortedArrayToBST(int[] nums) {
+    if(nums.length == 0){
+        return null;
+    }else if(nums.length == 1){
+        return new TreeNode(nums[0]);
+    }
+    // construct
+    TreeNode root = constructBST(nums, 0, nums.length-1);
+    return root;
+}
+
+private TreeNode constructBST(int[] nums, int start, int end){
+    int n = end - start + 1;
+    if(n <= 0){
+        return null;
+    }
+
+    int mid = n/2;
+    TreeNode root = new TreeNode(nums[start + mid]);
+    root.left = constructBST(nums, start, start + mid -1);
+    root.right = constructBST(nums, start + mid + 1, end);
+
+    return root;
+}
+```
+
+
+# 124 Binary Tree Maxmium Path Sum
+
+Difficulty:Hard
+
+## Descirption
+
+给出一个二叉树，每个节点都有一个值，然后让我们找出一条path，使得这个path通过的节点val和最大
+
+## Ideas
+
+那么，我最开始的想法呢，是非常naive的，我想通过层序遍历二叉树来构造一个图，再利用DFS求connectivity的方法求出来最大的sum(某个connected componentd的sum)
+
+可以预想到，这个方法开销是非常大的
+
+然后通过[blog](http://www.jianshu.com/p/c3e81355831d),了解到了正确的打开方式,这道题说实在的这个idea挺难想的，但是代码不难写
+
+这个方法就是，我们求三个单路（只能往下走左或者右），对左右子树分别求，然后最后我们有三种选择，选左子树的结果或者右子树，或者加上root
+
+具体代码参考了另外一个[大佬](http://www.cnblogs.com/yrbbest/p/4438479.html)
+
+
+## Solutions 
+
+```java
+class Solution {
+    private int maxSum;
+    public int maxPathSum(TreeNode root) {
+        maxSum = Integer.MIN_VALUE;
+        helper(root);
+        return maxSum;
+    }
+    
+    private int helper(TreeNode root){
+        if(root == null){
+            return 0;
+        }
+        int left = Math.max(helper(root.left), 0);
+        int right = Math.max(helper(root.right), 0);
+        maxSum = Math.max(maxSum, root.val + left + right);
+        return root.val + Math.max(left, right);
+    }
+}
+```
+
+
+# Next DFS
+
+到此为止。。。太长了这个文件
