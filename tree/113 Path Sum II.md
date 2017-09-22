@@ -75,7 +75,7 @@ public class Solution {
         sum -= root.val;  
         if(root.left == null && root.right == null && sum == 0){ //递归结束条件  
             res.add(new ArrayList<>(temp));  //满足路径和等于 sum，添加到结果集中去            
-        }  
+        }
         if(root.left != null) dfs(root.left, res, temp, sum);  
         if(root.right != null) dfs(root.right, res, temp, sum);  
         temp.remove(temp.size()-1);  //回溯  
